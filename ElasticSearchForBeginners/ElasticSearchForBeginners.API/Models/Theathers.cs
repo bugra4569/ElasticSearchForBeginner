@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 
 namespace ElasticSearchForBeginners.API.Models
 {
-    public class Books
+    public class Theathers
     {
         public int ID { get; set; }
         public string Author { get; set; }

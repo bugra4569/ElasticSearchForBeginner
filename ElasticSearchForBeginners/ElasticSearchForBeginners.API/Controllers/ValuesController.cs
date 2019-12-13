@@ -47,15 +47,15 @@ namespace ElasticSearchForBeginners.API.Controllers
         {
         }
 
-        private void CreateNewIndex() {
-            var createIndexDescriptor = new CreateIndexDescriptor("BugraBooksHistory").Map(m => m.AutoMap<Books>());
-            createIndexDescriptor.Aliases(a => a.Alias("Books"));
-            Uri node = new Uri(@"http://localhost:9200/");
-            ConnectionSettings connectionSettings = new ConnectionSettings(node);
-            ElasticClient client = new ElasticClient(connectionSettings);
-        var request=     client.Indices.Create(createIndexDescriptor);
+        //private void CreateNewIndex() {
+        //    var createIndexDescriptor = new CreateIndexDescriptor("BugraBooksHistory").Map(m => m.AutoMap<Books>());
+        //    createIndexDescriptor.Aliases(a => a.Alias("Books"));
+        //    Uri node = new Uri(@"http://localhost:9200/");
+        //    ConnectionSettings connectionSettings = new ConnectionSettings(node);
+        //    ElasticClient client = new ElasticClient(connectionSettings);
+        //var request=     client.Indices.Create(createIndexDescriptor);
 
 
-        }
+        //}
     }
 }

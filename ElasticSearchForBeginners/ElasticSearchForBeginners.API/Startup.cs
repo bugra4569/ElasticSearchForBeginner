@@ -24,6 +24,11 @@ namespace ElasticSearchForBeginners.API
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            services.AddSwaggerGen(c=> {
+                c.SwaggerDoc("SwaggerCore", new Swashbuckle.AspNetCore.Swagger.Info {
+                    Title="ElasticSearchForBegginers Swagger"
+                });
+            });
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
         }
 
@@ -34,7 +39,11 @@ namespace ElasticSearchForBeginners.API
             {
                 app.UseDeveloperExceptionPage();
             }
-
+            app.UseSwagger()
+           .UseSwaggerUI(c =>
+           {
+                c.SwaggerEndpoint("/swagger/SwaggerCore/swagger.json", "Swagger Test .Net Core");
+            });
             app.UseMvc();
         }
     }

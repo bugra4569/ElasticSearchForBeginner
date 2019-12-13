@@ -11,42 +11,42 @@ namespace ElasticSearchForBeginners.API.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class TheathersController : ControllerBase
+    public class TheatersController : ControllerBase
     {
         private static readonly ConnectionSettings connSettings =
          new ConnectionSettings(new Uri("http://localhost:9200/"))
-                         .DefaultIndex("theather_ind")
-            .DefaultMappingFor(typeof(Theathers), m => m.IndexName("theather_ind"));
+                         .DefaultIndex("theater_ind")
+            .DefaultMappingFor(typeof(Theaters), m => m.IndexName("theater_ind"));
         private static readonly ElasticClient elasticClient = new ElasticClient(connSettings);
         [HttpPost]
-        public void InsertTheathers([FromBody]Theathers theather)
+        public void Inserttheaters([FromBody]Theaters theater)
         {
-            //elasticClient.DeleteIndex("theather_ind");
+            //elasticClient.DeleteIndex("theater_ind");
 
-            if (!elasticClient.Indices.Exists("theather_ind").Exists)
+            if (!elasticClient.Indices.Exists("theater_ind").Exists)
             {
                 var indexSettings = new IndexSettings();
                 indexSettings.NumberOfReplicas = 1;
                 indexSettings.NumberOfShards = 3;
 
 
-                var createIndexDescriptor = new CreateIndexDescriptor("theather_ind")
+                var createIndexDescriptor = new CreateIndexDescriptor("theater_ind")
                .Mappings(ms => ms
-                               .Map<Theathers>(m => m.AutoMap())
+                               .Map<Theaters>(m => m.AutoMap())
                         )
                 .InitializeUsing(new IndexState() { Settings = indexSettings })
-                .Aliases(a => a.Alias("TheatherAlias"));
+                .Aliases(a => a.Alias("theaterAlias"));
 
                 var response = elasticClient.Indices.Create(createIndexDescriptor);
             }
             //Insert Data           
 
-            elasticClient.Index<Theathers>(theather, idx => idx.Index("theather_ind"));
+            elasticClient.Index<Theaters>(theater, idx => idx.Index("theater_ind"));
         }
         [HttpGet("{id}")]
-        public async Task<List<Theathers>> Get(int id)
+        public async Task<List<Theaters>> Get(int id)
         {
-            var response = await elasticClient.SearchAsync<Theathers>(p => p
+            var response = await elasticClient.SearchAsync<Theaters>(p => p
                 .Query(q => q
                     .Match(m => m
                         .Field(f => f.ID)
@@ -57,7 +57,7 @@ namespace ElasticSearchForBeginners.API.Controllers
                     .Sort(s => s.Descending(f => f.ID))
             );
 
-            var result = new List<Theathers>();
+            var result = new List<Theaters>();
             foreach (var document in response.Documents)
             {
                 result.Add(document);
@@ -67,14 +67,14 @@ namespace ElasticSearchForBeginners.API.Controllers
         }
         
         [HttpPut("{id}")]
-        public void Put(int id, [FromBody] Theathers theather)
+        public void Put(int id, [FromBody] Theaters theater)
         {
-            elasticClient.UpdateAsync<Theathers>(id, u =>u.Doc(theather));
+            elasticClient.UpdateAsync<Theaters>(id, u =>u.Doc(theater));
         }
         [HttpGet]
-        public async Task<List<string>> GetAllTheathers()
+        public async Task<List<string>> GetAlltheaters()
         {
-            var response = await elasticClient.SearchAsync<Theathers>(p => p
+            var response = await elasticClient.SearchAsync<Theaters>(p => p
                  //.Source(f=>f.Includes(p2=>p2.Field(f2=>f2.message)))                  
                  .Query(q => q
                  .MatchAll()
@@ -92,7 +92,7 @@ namespace ElasticSearchForBeginners.API.Controllers
         [HttpDelete("{id}")]
         public void Delete(int id)
         {
-            elasticClient.DeleteAsync<Theathers>(id);
+            elasticClient.DeleteAsync<Theaters>(id);
         }
     }
 }

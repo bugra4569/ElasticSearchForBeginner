@@ -1,5 +1,5 @@
-# ElasticSearchForBeginner
-NetCore ElesticSearch For Begginers
+# NetCore Elastic Search
+NetCore Eleastic Search Kullanımı
 
 * .Net Core 3.1 ile eleasticSeach kullanımının ufak bir örneğidir. ElasticSearch ile Listeleme, ekleme, güncelleme ve silme işlemlerinin nasıl olduğu ile ilgili örnektir.
 
